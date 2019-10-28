@@ -1,2 +1,0 @@
-# BoomBlocks
-Created with CodeSandbox
