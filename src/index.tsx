@@ -4,15 +4,18 @@ import "./styles.css";
 import Game from "./components/Game";
 import { GameProvider } from "./context/GameContext";
 import { Row } from "./components/Layout";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
     <div className="App">
-      <GameProvider>
-        <Row width="calc(100vw - 20px)" height="calc(100vh - 20px)">
-          <Game />
-        </Row>
-      </GameProvider>
+      <ThemeProvider>
+        <GameProvider>
+          <Row width="calc(100vw - 20px)" height="calc(100vh - 20px)">
+            <Game />
+          </Row>
+        </GameProvider>
+      </ThemeProvider>
     </div>
   );
 }

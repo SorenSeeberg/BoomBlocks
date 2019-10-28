@@ -4,13 +4,14 @@ import { useGame } from "../context/GameContext";
 import { STYLES, BLOCK_SIZE } from "../constants";
 import Block from "./Block";
 import { Tetromino } from "../types";
+import { Column } from "./Layout";
 
 type NextBlockProps = {
   width: string;
 };
 
 export default function NextBlock({ width }: NextBlockProps) {
-  const [{ next }, dispatch] = useGame();
+  const [{ next }] = useGame();
 
   const strippedData: number[][] = next.data.filter(
     l => l.reduce((a, b) => a + b, 0) > 0
@@ -22,18 +23,8 @@ export default function NextBlock({ width }: NextBlockProps) {
   };
 
   return (
-    <Window width={width} height={STYLES.infoBoxHeight}>
-      <div
-        style={{
-          color: STYLES.fontColorInfo,
-          fontSize: STYLES.fontSizeInfo,
-          background: "black",
-          height: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
+    <Window width={width} height={STYLES.infoBoxHeight} background="black">
+      <Column height="100%">
         <svg
           width={BLOCK_SIZE * strippedNext.size.x}
           height={BLOCK_SIZE * strippedNext.size.y}
@@ -50,7 +41,7 @@ export default function NextBlock({ width }: NextBlockProps) {
             )
           )}
         </svg>
-      </div>
+      </Column>
     </Window>
   );
 }

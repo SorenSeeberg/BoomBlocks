@@ -1,6 +1,6 @@
 export type HighScore = {
   name: string;
-  score: number;
+  score: number | string;
   levelStart: number;
   levelEnd: number;
   lines: number;

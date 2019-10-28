@@ -1,4 +1,24 @@
-import React from "react";
+import React, { ReactNode } from "react";
+
+type JustifyContent =
+  | "flex-start"
+  | "flex-end"
+  | "center"
+  | "space-between"
+  | "space-around"
+  | "space-evenly"
+  | "start"
+  | "end"
+  | "left"
+  | "right";
+
+type FlexBox = {
+  children: ReactNode;
+  width?: string;
+  height?: string;
+  justifyContent?: JustifyContent;
+  alignItems?: string;
+};
 
 export function Row({
   children,
@@ -6,7 +26,7 @@ export function Row({
   height = "auto",
   justifyContent = "center",
   alignItems = "center"
-}) {
+}: FlexBox) {
   return (
     <div
       style={{
@@ -29,7 +49,7 @@ export function Column({
   height = "auto",
   justifyContent = "center",
   alignItems = "center"
-}) {
+}: FlexBox) {
   return (
     <div
       style={{

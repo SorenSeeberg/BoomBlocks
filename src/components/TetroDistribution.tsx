@@ -1,15 +1,17 @@
 import React from "react";
 import { useGame } from "../context/GameContext";
 import { Row } from "./Layout";
-import { BLOCK_COLORS } from "../constants";
+import { useTheme, Theme } from "../context/ThemeContext";
 
 function Bar({ height = "100px", index }) {
+  const theme: Theme = useTheme();
+
   return (
     <div
       style={{
         height: height === "0px" ? "4px" : height,
         width: "30px",
-        background: BLOCK_COLORS[`${parseInt(index, 0) + 1}`],
+        background: theme.tetroColors[`${parseInt(index, 0) + 1}`],
         transition: "height 0.35s ease"
       }}
     />
@@ -18,8 +20,7 @@ function Bar({ height = "100px", index }) {
 
 export function TetroDistribution() {
   let highestValue = 0;
-
-  const [{ statistics }, dispatch] = useGame();
+  const [{ statistics }] = useGame();
 
   Object.keys(statistics).forEach(k => {
     if (statistics[k] > highestValue) {

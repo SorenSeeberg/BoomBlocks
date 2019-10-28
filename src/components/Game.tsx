@@ -50,6 +50,7 @@ function Game() {
             width={widthStyle}
             height={`${GRID_SIZE.y * BLOCK_SIZE -
               HIDDEN_ROW_COUNT * BLOCK_SIZE}px`}
+            background="black"
           >
             <Grid lines={game.grid} activePiece={game.active} />
           </Window>

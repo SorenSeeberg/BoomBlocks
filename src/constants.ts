@@ -20,6 +20,7 @@ export const GAME_INPUT_KEYS: GameInputKeys[] = [
   "ArrowUp"
 ];
 export const ZERO_SCORE = "0000000";
+export const NO_NAME = "..........";
 export const ZERO_LINES = "000";
 export const STYLES = {
   fontSizeH1: "50px",
