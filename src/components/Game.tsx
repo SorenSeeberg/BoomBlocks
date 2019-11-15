@@ -8,7 +8,11 @@ import {
 } from "../constants";
 import Window from "./Window";
 import Score from "./Score";
-import { useGame } from "../context/GameContext";
+import {
+  useGameDispatch,
+  useGameState,
+  GameState
+} from "../context/GameContext";
 import useEventListener from "../util/useEventListener";
 import Level from "./Level";
 import Line from "./Line";
@@ -17,13 +21,14 @@ import Statistics from "./Statistics";
 import { Row, Column } from "./Layout";
 
 function Game() {
-  const [game, dispatch] = useGame();
+  const game: GameState = useGameState();
+  const dispatch = useGameDispatch();
 
   useEffect(() => {
     setTimeout(() => {
       dispatch({ type: "FRAME_STEP" });
     }, game.levelInfo.msPerFrame);
-  }, [game.currentFrame]);
+  }, [game.currentFrame, game.levelInfo.msPerFrame, dispatch]);
 
   function handler({ key }) {
     if (GAME_INPUT_KEYS.includes(key)) {

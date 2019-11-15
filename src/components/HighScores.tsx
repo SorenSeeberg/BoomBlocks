@@ -1,17 +1,52 @@
 import React, { useEffect } from "react";
-import { loadHighScore, HighScore, addHighScore } from "../util/highScore";
+import { loadHighScore, HighScore } from "../util/highScore";
 import { Column, Row } from "./Layout";
 import { H3, H2 } from "./Text";
 import { ZERO_SCORE, NO_NAME } from "../constants";
 
 function dummyScores(): void {
-  addHighScore({
-    name: "Zoidberg",
-    levelStart: 1,
-    levelEnd: 21,
-    lines: 181,
-    score: 182374
-  });
+  if (loadHighScore().length < 5) {
+    localStorage.setItem(
+      "highScore",
+      JSON.stringify([
+        {
+          name: "Bohr",
+          levelStart: 1,
+          levelEnd: 10,
+          lines: 100,
+          score: 50000
+        },
+        {
+          name: "Einstein",
+          levelStart: 1,
+          levelEnd: 9,
+          lines: 90,
+          score: 40000
+        },
+        {
+          name: "Feynman",
+          levelStart: 1,
+          levelEnd: 8,
+          lines: 80,
+          score: 30000
+        },
+        {
+          name: "Newton",
+          levelStart: 1,
+          levelEnd: 7,
+          lines: 70,
+          score: 20000
+        },
+        {
+          name: "Maxwell",
+          levelStart: 1,
+          levelEnd: 6,
+          lines: 60,
+          score: 10000
+        }
+      ])
+    );
+  }
 }
 
 function HighScoreRow({
@@ -22,7 +57,7 @@ function HighScoreRow({
   highScores: HighScore[];
 }) {
   useEffect(() => {
-    //dummyScores()
+    dummyScores();
   }, []);
 
   const highScore: HighScore =
@@ -41,7 +76,10 @@ function HighScoreRow({
   return (
     <Row justifyContent="space-between" width="calc(100% - 30px)">
       <H3>{ZERO_SCORE.slice(scoreString.length) + scoreString}</H3>
-      <H3>{highScore.name + NO_NAME.slice(highScore.name.length)}</H3>
+      <H3 padding="3px 0">
+        {highScore.name.replace(" ", ".") +
+          NO_NAME.slice(highScore.name.length)}
+      </H3>
     </Row>
   );
 }
@@ -53,7 +91,7 @@ export function HighScores() {
 
   return (
     <Column width="100%">
-      <H2 padding="0 0 20px 0">High Score</H2>
+      <H2 padding="0 0 40px 0">High Score</H2>
       {entries.map((e: number) => (
         <HighScoreRow key={e} entry={e} highScores={highScores} />
       ))}

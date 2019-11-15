@@ -20,7 +20,8 @@ export default function Window({
       style={{
         width,
         height,
-        border: "4px double #888",
+        border: "2px solid #888",
+        margin: "2px",
         background,
         ...(fillHeight ? { display: "flex", flex: 1 } : {})
       }}

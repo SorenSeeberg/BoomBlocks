@@ -1,6 +1,6 @@
 import React from "react";
 import Window from "./Window";
-import { useGame } from "../context/GameContext";
+import { useGameState } from "../context/GameContext";
 import { STYLES, ZERO_LINES } from "../constants";
 import { H2 } from "./Text";
 import { Column } from "./Layout";
@@ -10,7 +10,7 @@ type LevelProps = {
 };
 
 export default function Level({ width }: LevelProps) {
-  const [{ line }] = useGame();
+  const { line } = useGameState();
   const lineString = line ? line.toString() : "";
   return (
     <Window width={width} height={STYLES.infoBoxHeight} background="black">

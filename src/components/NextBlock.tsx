@@ -1,6 +1,6 @@
 import React from "react";
 import Window from "./Window";
-import { useGame } from "../context/GameContext";
+import { useGameState } from "../context/GameContext";
 import { STYLES, BLOCK_SIZE } from "../constants";
 import Block from "./Block";
 import { Tetromino } from "../types";
@@ -11,7 +11,7 @@ type NextBlockProps = {
 };
 
 export default function NextBlock({ width }: NextBlockProps) {
-  const [{ next }] = useGame();
+  const { next } = useGameState();
 
   const strippedData: number[][] = next.data.filter(
     l => l.reduce((a, b) => a + b, 0) > 0

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import { STYLES } from "../constants";
-import { Theme, useTheme } from "../context/ThemeContext";
+import { useTheme, Theme } from "../context/ThemeContext";
+import { useGameState } from "../context/GameContext";
 
 type Header = {
   children: ReactNode;
@@ -8,13 +8,13 @@ type Header = {
 };
 
 export function H1({ children, padding = "0px" }: Header) {
-  const theme: Theme = useTheme();
+  const { themeName } = useGameState();
+  const currentTheme: Theme = useTheme()[themeName];
   return (
     <div
       style={{
-        color: STYLES.fontColorInfo,
-        fontSize: STYLES.fontSizeH1,
-        fontFamily: theme.fontFamilyGlobal,
+        ...currentTheme.baseText,
+        fontSize: currentTheme.fontSizes.fontSizeH1,
         padding
       }}
     >
@@ -24,13 +24,14 @@ export function H1({ children, padding = "0px" }: Header) {
 }
 
 export function H2({ children, padding = "0px" }: Header) {
-  const theme: Theme = useTheme();
+  const { themeName } = useGameState();
+  const currentTheme: Theme = useTheme()[themeName];
+
   return (
     <div
       style={{
-        color: STYLES.fontColorInfo,
-        fontSize: STYLES.fontSizeH2,
-        fontFamily: theme.fontFamilyGlobal,
+        ...currentTheme.baseText,
+        fontSize: currentTheme.fontSizes.fontSizeH2,
         padding
       }}
     >
@@ -40,13 +41,13 @@ export function H2({ children, padding = "0px" }: Header) {
 }
 
 export function H3({ children, padding = "0px" }: Header) {
-  const theme: Theme = useTheme();
+  const { themeName } = useGameState();
+  const currentTheme: Theme = useTheme()[themeName];
   return (
     <div
       style={{
-        color: STYLES.fontColorInfo,
-        fontSize: STYLES.fontSizeH3,
-        fontFamily: theme.fontFamilyGlobal,
+        ...currentTheme.baseText,
+        fontSize: currentTheme.fontSizes.fontSizeH3,
         padding
       }}
     >

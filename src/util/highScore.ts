@@ -28,7 +28,11 @@ export function addHighScore(highScore: HighScore): void {
   } else {
     for (let x = 0; x < highScores.length; x++) {
       if (highScore.score > highScores[x].score) {
-        highScores.splice(x + 1, 0, highScore);
+        if (highScores.length === x + 1) {
+          highScores.push(highScore);
+        } else {
+          highScores.splice(x + 1, 0, highScore);
+        }
       }
     }
 

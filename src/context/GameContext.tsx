@@ -1,4 +1,10 @@
-import React, { useReducer, useContext, Dispatch } from "react";
+import React, {
+  useReducer,
+  useContext,
+  Dispatch,
+  createContext,
+  Context
+} from "react";
 import {
   TetroGameObject,
   Tetromino,
@@ -18,10 +24,12 @@ import { GRID_SIZE } from "../constants";
 import { getLevelInfo } from "../util/level";
 import { accumulateScore, lineScore, moveScore } from "../util/score";
 import { fits, freeze, collapsableLInes, collapseLines } from "../util/grid";
+import { ThemeName } from "./ThemeContext";
 
 // https://kentcdodds.com/blog/how-to-use-react-context-effectively
 
-type GameState = {
+export type GameState = {
+  themeName: ThemeName;
   grid: number[][];
   active: TetroGameObject;
   next: Tetromino;
@@ -51,6 +59,7 @@ function initGameState(): GameState {
   statistics[active.tetromino.index] = 1;
 
   return {
+    themeName: "arcade",
     grid: array2d(GRID_SIZE.x, GRID_SIZE.y),
     active,
     next: getRandomTetro(),
@@ -66,9 +75,8 @@ function initGameState(): GameState {
   };
 }
 
-const GameContext: React.Context<GameState> = React.createContext(
-  initGameState()
-);
+const StateContext: Context<GameState> = createContext(null);
+const DispatchContext: Context<Dispatch<Action>> = createContext(null);
 
 function frameStep(state: GameState): GameState {
   let canMove: boolean;
@@ -230,16 +238,22 @@ function reducer(state: GameState, action: Action): GameState {
   }
 }
 
-type GameProvider = [GameState, Dispatch<Action>];
-
 export function GameProvider({ children }) {
-  const contextValue: GameProvider = useReducer(reducer, initGameState());
+  const [gameState, gameDispatch] = useReducer(reducer, initGameState());
 
   return (
-    <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>
+    <DispatchContext.Provider value={gameDispatch}>
+      <StateContext.Provider value={gameState}>
+        {children}
+      </StateContext.Provider>
+    </DispatchContext.Provider>
   );
 }
 
-export function useGame() {
-  return useContext(GameContext);
+export function useGameState(): GameState {
+  return useContext(StateContext);
+}
+
+export function useGameDispatch(): Dispatch<Action> {
+  return useContext(DispatchContext);
 }
