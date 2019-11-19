@@ -12,12 +12,21 @@ type JustifyContent =
   | "left"
   | "right";
 
+type AlignItems =
+  | "flex-start"
+  | "flex-end"
+  | "center"
+  | "stretch"
+  | "base-line"
+  | "first"
+  | "end";
+
 type FlexBox = {
   children: ReactNode;
   width?: string;
   height?: string;
   justifyContent?: JustifyContent;
-  alignItems?: string;
+  alignItems?: AlignItems;
 };
 
 export function Row({

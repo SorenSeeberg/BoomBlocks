@@ -7,6 +7,27 @@ type Header = {
   padding?: string;
 };
 
+export function Header({
+  children,
+  fontSize,
+  padding = "0px"
+}: Header & { fontSize: string }) {
+  const { themeName } = useGameState();
+  const currentTheme: Theme = useTheme()[themeName];
+  return (
+    <div
+      style={{
+        ...currentTheme.baseText,
+        fontSize,
+        padding,
+        transition: "font-size .5s"
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function H1({ children, padding = "0px" }: Header) {
   const { themeName } = useGameState();
   const currentTheme: Theme = useTheme()[themeName];

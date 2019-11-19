@@ -1,15 +1,15 @@
 import React from "react";
-import Window from "./Window";
-import { useGameState } from "../context/GameContext";
-import { STYLES, ZERO_LINES } from "../constants";
-import { H2 } from "./Text";
-import { Column } from "./Layout";
+import { useGameState } from "../../context/GameContext";
+import { STYLES, ZERO_LINES } from "../../constants";
+import { Column } from "../../components/Layout";
+import { H2 } from "../../components/Text";
+import { Window } from "../../components/Window";
 
 type LevelProps = {
   width: string;
 };
 
-export default function Level({ width }: LevelProps) {
+export function Line({ width }: LevelProps) {
   const { line } = useGameState();
   const lineString = line ? line.toString() : "";
   return (
@@ -21,3 +21,5 @@ export default function Level({ width }: LevelProps) {
     </Window>
   );
 }
+
+export default Line;

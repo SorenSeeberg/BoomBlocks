@@ -1,7 +1,7 @@
 import React from "react";
-import { HighScores } from "./HighScores";
-import { Column } from "./Layout";
+import { Column } from "../../components/Layout";
 import { TetroDistribution } from "./TetroDistribution";
+import { HighScores } from "./HighScores";
 
 export default function Statistics() {
   return (

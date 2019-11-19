@@ -4,7 +4,12 @@ export type ThemeName = "arcade" | "soviet";
 
 export type Theme = {
   tetroColors: string[];
-  baseText: { fontFamily: string; color: string; textShadow: string };
+  baseText: {
+    fontFamily: string;
+    color: string;
+    textShadow: string;
+    transition: string;
+  };
   fontFamilyGlobal: string;
   fontColorMain: string;
   fontSizes: {
@@ -28,11 +33,12 @@ const themeArcade: Theme = {
   ],
   baseText: {
     fontFamily: '"Share Tech Mono", monospace',
-    color: "#85ffc7",
-    textShadow: ""
+    color: "white",
+    textShadow: "",
+    transition: "font-size 1s"
   },
   fontFamilyGlobal: '"Share Tech Mono", monospace',
-  fontColorMain: "#green",
+  fontColorMain: "white",
   fontSizes: { fontSizeH1: "50px", fontSizeH2: "35px", fontSizeH3: "28px" }
 };
 
@@ -51,7 +57,8 @@ const themeSoviet: Theme = {
   baseText: {
     fontFamily: '"Share Tech Mono", monospace',
     color: "#85ffc7",
-    textShadow: "0 0 16px #00c372, 0 0 5px #00c372"
+    textShadow: "0 0 16px #00c372, 0 0 5px #00c372",
+    transition: "font-size 1s"
   },
   fontFamilyGlobal: '"Share Tech Mono", monospace',
   fontColorMain: "#09ffbb",
@@ -69,9 +76,7 @@ const ThemeContext: Context<Themes> = createContext<Themes>(themes);
 
 export function ThemeProvider({ children }) {
   return (
-    <ThemeContext.Provider value={themes}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={themes}>{children}</ThemeContext.Provider>
   );
 }
 

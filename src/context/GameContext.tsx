@@ -50,7 +50,9 @@ type GameActionTypes =
   | "NEXT_LEVEL"
   | "NEXT_BLOCK"
   | "FRAME_STEP"
-  | "KEY_DOWN";
+  | "KEY_DOWN"
+  | "INC_START_LEVEL"
+  | "DEC_START_LEVEL";
 type Action = { type: GameActionTypes; value?: any };
 
 function initGameState(): GameState {
@@ -59,7 +61,7 @@ function initGameState(): GameState {
   statistics[active.tetromino.index] = 1;
 
   return {
-    themeName: "arcade",
+    themeName: "soviet",
     grid: array2d(GRID_SIZE.x, GRID_SIZE.y),
     active,
     next: getRandomTetro(),

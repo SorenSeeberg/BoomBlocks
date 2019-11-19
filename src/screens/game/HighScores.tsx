@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { loadHighScore, HighScore } from "../util/highScore";
-import { Column, Row } from "./Layout";
-import { H3, H2 } from "./Text";
-import { ZERO_SCORE, NO_NAME } from "../constants";
+import { loadHighScore, HighScore } from "../../util/highScore";
+import { Row, Column } from "../../components/Layout";
+import { H3, H2 } from "../../components/Text";
+import { ZERO_SCORE, NO_NAME } from "../../constants";
 
 function dummyScores(): void {
   if (loadHighScore().length < 5) {

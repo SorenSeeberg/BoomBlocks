@@ -1,3 +1,14 @@
+import { ThemeName } from "./context/ThemeContext";
+
+export type SettingsState = {
+  displayStandard: DisplayStandard;
+  startLevel: number;
+  startLevelLimits: Vector2;
+  themeName: ThemeName;
+};
+
+export type DisplayStandard = "pal" | "ntsc";
+
 export type Vector2 = {
   x: number;
   y: number;
@@ -34,6 +45,7 @@ export type LevelInfo = {
   msPerFrame: number;
   framesPerStep: number;
   lines: number;
+  standard: DisplayStandard;
 };
 
 export type Statistics = {

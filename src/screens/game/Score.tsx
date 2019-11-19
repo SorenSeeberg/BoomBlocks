@@ -1,9 +1,9 @@
 import React from "react";
-import Window from "./Window";
-import { useGameState } from "../context/GameContext";
-import { ZERO_SCORE, STYLES } from "../constants";
-import { H1 } from "./Text";
-import { Row } from "./Layout";
+import { Window } from "../../components/Window";
+import { useGameState } from "../../context/GameContext";
+import { STYLES, ZERO_SCORE } from "../../constants";
+import { Row } from "../../components/Layout";
+import { H1 } from "../../components/Text";
 
 type ScoreProps = {
   width: string;

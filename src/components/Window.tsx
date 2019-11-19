@@ -8,7 +8,7 @@ type WindowProps = {
   fillHeight?: boolean;
 };
 
-export default function Window({
+export function Window({
   width,
   height,
   children,
@@ -30,3 +30,5 @@ export default function Window({
     </div>
   );
 }
+
+export default Window;

@@ -1,10 +1,10 @@
 import React from "react";
-import Window from "./Window";
-import { useGameState } from "../context/GameContext";
-import { STYLES, BLOCK_SIZE } from "../constants";
+import { useGameState } from "../../context/GameContext";
+import { Tetromino } from "../../types";
+import { STYLES, BLOCK_SIZE } from "../../constants";
+import { Column } from "../../components/Layout";
+import { Window } from "../../components/Window";
 import Block from "./Block";
-import { Tetromino } from "../types";
-import { Column } from "./Layout";
 
 type NextBlockProps = {
   width: string;

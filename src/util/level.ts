@@ -1,6 +1,4 @@
-import { LevelInfo } from "../types";
-
-type DisplayStandard = "pal" | "ntsc";
+import { LevelInfo, DisplayStandard } from "../types";
 
 const ntscFrameTimings = [
   48,
@@ -91,6 +89,7 @@ export function getLevelInfo(
     level,
     msPerFrame: msPerFrame[standard],
     framesPerStep: getFrameTiming(level, standard),
-    lines: lineByLevel(level)
+    lines: lineByLevel(level),
+    standard
   };
 }

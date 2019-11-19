@@ -1,7 +1,7 @@
 import React from "react";
-import { useGameState } from "../context/GameContext";
-import { Row } from "./Layout";
-import { useTheme, Theme } from "../context/ThemeContext";
+import { useGameState } from "../../context/GameContext";
+import { Theme, useTheme } from "../../context/ThemeContext";
+import { Row } from "../../components/Layout";
 
 function Bar({ height = "100px", index }) {
   const { themeName } = useGameState();

@@ -1,6 +1,6 @@
 import React from "react";
-import { BLOCK_SIZE, GRID_SIZE, HIDDEN_ROW_COUNT } from "../constants";
-import { LinesProps } from "../types";
+import { LinesProps } from "../../types";
+import { BLOCK_SIZE, GRID_SIZE, HIDDEN_ROW_COUNT } from "../../constants";
 import Block from "./Block";
 
 function Grid({ lines, activePiece }: LinesProps) {
