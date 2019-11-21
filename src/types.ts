@@ -1,13 +1,18 @@
 import { ThemeName } from "./context/ThemeContext";
 
+export type DisplayStandard = "pal" | "ntsc";
+export type RandomModel = "random" | "7bag" | "14bag";
+
 export type SettingsState = {
   displayStandard: DisplayStandard;
+  displayStandardOptions: DisplayStandard[];
   startLevel: number;
   startLevelLimits: Vector2;
   themeName: ThemeName;
+  themeNameOptions: ThemeName[];
+  randomModel: RandomModel;
+  randomModelOptions: RandomModel[];
 };
-
-export type DisplayStandard = "pal" | "ntsc";
 
 export type Vector2 = {
   x: number;

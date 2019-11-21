@@ -1,4 +1,3 @@
-import { SettingsState } from "../types";
 import React, {
   useReducer,
   useContext,
@@ -6,33 +5,77 @@ import React, {
   createContext,
   Context
 } from "react";
+import { SettingsState } from "../types";
 
-type SettingsActionTypes = "KEY_DOWN" | "INC_START_LEVEL" | "DEC_START_LEVEL";
+type SettingsActionTypes =
+  | "INC_START_LEVEL"
+  | "DEC_START_LEVEL"
+  | "NEXT_DISPLAY_STANDARD"
+  | "PREV_DISPLAY_STANDARD"
+  | "NEXT_THEME"
+  | "NEXT_RNG_MODEL";
 type Action = { type: SettingsActionTypes; value?: any };
 
 const initSettingsState: SettingsState = {
   displayStandard: "ntsc",
+  displayStandardOptions: ["ntsc", "pal"],
   startLevel: 0,
   startLevelLimits: { x: 0, y: 19 },
-  themeName: "soviet"
+  themeName: "soviet",
+  themeNameOptions: ["soviet", "arcade"],
+  randomModel: "random",
+  randomModelOptions: ["random", "7bag", "14bag"]
 };
+
+function nextOption<T>(options: T[], selection: T): T {
+  const selectedIndex = options.indexOf(selection);
+
+  return selectedIndex < options.length - 1
+    ? options[selectedIndex + 1]
+    : options[0];
+}
 
 const StateContext: Context<SettingsState> = createContext(null);
 const DispatchContext: Context<Dispatch<Action>> = createContext(null);
 
-function reducer(action: Action, state: SettingsState): SettingsState {
+function reducer(state: SettingsState, action: Action): SettingsState {
   if (action.type === "INC_START_LEVEL") {
     return state.startLevel < state.startLevelLimits.y
       ? { ...state, startLevel: state.startLevel + 1 }
-      : state;
+      : { ...state, startLevel: state.startLevelLimits.x };
   }
 
   if (action.type === "DEC_START_LEVEL") {
     return state.startLevel > state.startLevelLimits.x
       ? { ...state, startLevel: state.startLevel + 1 }
-      : state;
+      : { ...state, startLevel: state.startLevelLimits.y };
   }
-  return state;
+
+  if (action.type === "NEXT_DISPLAY_STANDARD") {
+    return {
+      ...state,
+      displayStandard: nextOption(
+        state.displayStandardOptions,
+        state.displayStandard
+      )
+    };
+  }
+
+  if (action.type === "NEXT_THEME") {
+    return {
+      ...state,
+      themeName: nextOption(state.themeNameOptions, state.themeName)
+    };
+  }
+
+  if (action.type === "NEXT_RNG_MODEL") {
+    return {
+      ...state,
+      randomModel: nextOption(state.randomModelOptions, state.randomModel)
+    };
+  }
+
+  return { ...state };
 }
 
 export function SettingsProvider({ children }) {
@@ -50,10 +93,10 @@ export function SettingsProvider({ children }) {
   );
 }
 
-export function useGameState(): SettingsState {
+export function useSettingsState(): SettingsState {
   return useContext(StateContext);
 }
 
-export function useGameDispatch(): Dispatch<Action> {
+export function useSettingsDispatch(): Dispatch<Action> {
   return useContext(DispatchContext);
 }

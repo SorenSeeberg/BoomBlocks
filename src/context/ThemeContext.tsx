@@ -4,18 +4,28 @@ export type ThemeName = "arcade" | "soviet";
 
 export type Theme = {
   tetroColors: string[];
-  baseText: {
-    fontFamily: string;
-    color: string;
-    textShadow: string;
-    transition: string;
+  background: string;
+  backgroundTopBar: string;
+  font: {
+    baseText: {
+      fontFamily: string;
+      color: string;
+      textShadow: string;
+      transition: string;
+    };
+    size: {
+      title: string;
+      h1: string;
+      h2: string;
+      h3: string;
+    };
+    color: {
+      titleColor: string;
+      titleBorder: string;
+    };
   };
-  fontFamilyGlobal: string;
-  fontColorMain: string;
-  fontSizes: {
-    fontSizeH1: string;
-    fontSizeH2: string;
-    fontSizeH3: string;
+  menuItem: {
+    backgroundHover: string;
   };
 };
 
@@ -31,46 +41,65 @@ const themeArcade: Theme = {
     "red",
     "transparent"
   ],
-  baseText: {
-    fontFamily: '"Share Tech Mono", monospace',
-    color: "white",
-    textShadow: "",
-    transition: "font-size 1s"
+  background: "#270b5c",
+  backgroundTopBar: "purple",
+  font: {
+    baseText: {
+      fontFamily: '"VT323", monospace',
+      color: "#ffc379",
+      textShadow: "2px 5px 0 black",
+      transition: "font-size 1s"
+    },
+    size: { h1: "54px", h2: "45px", h3: "36px", title: "84px" },
+    color: {
+      titleColor: "green",
+      titleBorder: "1px white"
+    }
   },
-  fontFamilyGlobal: '"Share Tech Mono", monospace',
-  fontColorMain: "white",
-  fontSizes: { fontSizeH1: "50px", fontSizeH2: "35px", fontSizeH3: "28px" }
+  menuItem: {
+    backgroundHover: "purple"
+  }
 };
 
-const themeSoviet: Theme = {
-  tetroColors: [
-    "black",
-    "cyan",
-    "blue",
-    "orange",
-    "yellow",
-    "green",
-    "purple",
-    "red",
-    "transparent"
-  ],
-  baseText: {
-    fontFamily: '"Share Tech Mono", monospace',
-    color: "#85ffc7",
-    textShadow: "0 0 16px #00c372, 0 0 5px #00c372",
-    transition: "font-size 1s"
-  },
-  fontFamilyGlobal: '"Share Tech Mono", monospace',
-  fontColorMain: "#09ffbb",
-  fontSizes: { fontSizeH1: "50px", fontSizeH2: "35px", fontSizeH3: "28px" }
-};
+function themeSoviet(): Theme {
+  const primaryColor = "#85ffc7";
+
+  return {
+    tetroColors: [
+      "black",
+      "#46a077",
+      "#163a3c",
+      "#67843a",
+      "#417331",
+      "#50b788",
+      "#2b5445",
+      "red",
+      "transparent"
+    ],
+    background: "#181818",
+    backgroundTopBar: "#080808",
+    font: {
+      baseText: {
+        fontFamily: '"Share Tech Mono", monospace',
+        color: primaryColor,
+        textShadow: "0 0 16px #00c372, 0 0 5px #00c372",
+        transition: "font-size 1s"
+      },
+      size: { title: "80px", h1: "50px", h2: "35px", h3: "28px" },
+      color: { titleColor: primaryColor, titleBorder: `1px white` }
+    },
+    menuItem: {
+      backgroundHover: `radial-gradient(circle, ${primaryColor}30 0%, ${primaryColor}00 100%)`
+    }
+  };
+}
 
 export type Themes = {
   arcade: Theme;
   soviet: Theme;
 };
 
-const themes: Themes = { arcade: themeArcade, soviet: themeSoviet };
+const themes: Themes = { arcade: themeArcade, soviet: themeSoviet() };
 
 const ThemeContext: Context<Themes> = createContext<Themes>(themes);
 

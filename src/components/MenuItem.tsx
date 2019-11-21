@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { useGameState } from "../context/GameContext";
 import { useTheme } from "../context/ThemeContext";
+import { useSettingsState } from "../context/SettingsContxt";
 
 type MenuItemProps = {
   children: ReactNode;
@@ -18,7 +18,7 @@ export function MenuItem({
   displayValue,
   type = "link"
 }: MenuItemProps) {
-  const { themeName } = useGameState();
+  const { themeName } = useSettingsState();
   const theme = useTheme()[themeName];
   return (
     <>
@@ -33,13 +33,14 @@ export function MenuItem({
           <div
             style={{
               display: "flex",
-              width: "600px",
-              justifyContent: "flex-end"
+              width: "500px",
+              justifyContent: "flex-end",
+              paddingRight: "5px"
             }}
           >
             {`${children}:`}
           </div>
-          <div style={{ display: "flex", width: "500px", paddingLeft: "80px" }}>
+          <div style={{ display: "flex", width: "500px", paddingLeft: "5px" }}>
             {`[${displayValue}]`}
           </div>
         </button>
@@ -54,23 +55,20 @@ export function MenuItem({
         width: 100%;
         height: 80px;
         cursor: pointer;
-        font-size: ${theme.fontSizes.fontSizeH2};
-        font-family: ${theme.baseText.fontFamily};
-        text-shadow: ${theme.baseText.textShadow};
-        color: ${theme.baseText.color};
+        font-size: 30px;
+        font-family: ${theme.font.baseText.fontFamily};
+        text-shadow: ${theme.font.baseText.textShadow};
+        color: ${theme.font.baseText.color};
         background: transparent;
         border: none;
         transition: color .25s, font-size .25s;
       }
 
-      .menu-item:focus,
       .menu-item:hover {
-        font-size: 45px;
+        font-size: 34px;
         color: white;
         outline: none;
-        background: radial-gradient(circle, ${theme.baseText.color}30 0%, ${
-          theme.baseText.color
-        }00 100%);
+        background: ${theme.menuItem.backgroundHover};
       }
      `}
       </style>

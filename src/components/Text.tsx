@@ -1,23 +1,23 @@
 import React, { ReactNode } from "react";
 import { useTheme, Theme } from "../context/ThemeContext";
-import { useGameState } from "../context/GameContext";
+import { useSettingsState } from "../context/SettingsContxt";
 
 type Header = {
   children: ReactNode;
   padding?: string;
 };
 
-export function Header({
-  children,
-  fontSize,
-  padding = "0px"
-}: Header & { fontSize: string }) {
-  const { themeName } = useGameState();
+type Title = Header & { fontSize: string };
+
+export function Title({ children, fontSize, padding = "0px" }: Title) {
+  const { themeName } = useSettingsState();
   const currentTheme: Theme = useTheme()[themeName];
   return (
     <div
       style={{
-        ...currentTheme.baseText,
+        ...currentTheme.font.baseText,
+        color: currentTheme.font.color.titleColor,
+        WebkitTextStroke: currentTheme.font.color.titleBorder,
         fontSize,
         padding,
         transition: "font-size .5s"
@@ -28,51 +28,46 @@ export function Header({
   );
 }
 
-export function H1({ children, padding = "0px" }: Header) {
-  const { themeName } = useGameState();
+export function HeaderInternal({
+  children,
+  size,
+  padding
+}: Header & { size: "h1" | "h2" | "h3" }) {
+  const { themeName } = useSettingsState();
   const currentTheme: Theme = useTheme()[themeName];
   return (
     <div
       style={{
-        ...currentTheme.baseText,
-        fontSize: currentTheme.fontSizes.fontSizeH1,
+        ...currentTheme.font.baseText,
+        fontSize: currentTheme.font.size[size],
         padding
       }}
     >
       {children}
     </div>
+  );
+}
+
+export function H1({ children, padding = "0px" }: Header) {
+  return (
+    <HeaderInternal size="h1" padding={padding}>
+      {children}
+    </HeaderInternal>
   );
 }
 
 export function H2({ children, padding = "0px" }: Header) {
-  const { themeName } = useGameState();
-  const currentTheme: Theme = useTheme()[themeName];
-
   return (
-    <div
-      style={{
-        ...currentTheme.baseText,
-        fontSize: currentTheme.fontSizes.fontSizeH2,
-        padding
-      }}
-    >
+    <HeaderInternal size="h2" padding={padding}>
       {children}
-    </div>
+    </HeaderInternal>
   );
 }
 
 export function H3({ children, padding = "0px" }: Header) {
-  const { themeName } = useGameState();
-  const currentTheme: Theme = useTheme()[themeName];
   return (
-    <div
-      style={{
-        ...currentTheme.baseText,
-        fontSize: currentTheme.fontSizes.fontSizeH3,
-        padding
-      }}
-    >
+    <HeaderInternal size="h3" padding={padding}>
       {children}
-    </div>
+    </HeaderInternal>
   );
 }

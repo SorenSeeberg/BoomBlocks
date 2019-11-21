@@ -24,12 +24,10 @@ import { GRID_SIZE } from "../constants";
 import { getLevelInfo } from "../util/level";
 import { accumulateScore, lineScore, moveScore } from "../util/score";
 import { fits, freeze, collapsableLInes, collapseLines } from "../util/grid";
-import { ThemeName } from "./ThemeContext";
 
 // https://kentcdodds.com/blog/how-to-use-react-context-effectively
 
 export type GameState = {
-  themeName: ThemeName;
   grid: number[][];
   active: TetroGameObject;
   next: Tetromino;
@@ -42,26 +40,33 @@ export type GameState = {
   inputBuffer: TransformAction[];
   evaluateGrid: boolean;
   statistics: Statistics;
+  pause: boolean;
 };
 type GameActionTypes =
   | "SCORE_ADD"
-  | "GAME_BEGIN"
+  | "NEW_GAME"
+  | "RESUME_GAME"
   | "GAME_END"
   | "NEXT_LEVEL"
   | "NEXT_BLOCK"
   | "FRAME_STEP"
-  | "KEY_DOWN"
-  | "INC_START_LEVEL"
-  | "DEC_START_LEVEL";
+  | "KEY_DOWN";
+
+/*
+type ActionNewGame = {
+  type: "NEW_GAME"
+  payload:
+}
+*/
+
 type Action = { type: GameActionTypes; value?: any };
 
 function initGameState(): GameState {
   const active = getFirstTetro();
-  let statistics = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+  const statistics = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
   statistics[active.tetromino.index] = 1;
 
   return {
-    themeName: "soviet",
     grid: array2d(GRID_SIZE.x, GRID_SIZE.y),
     active,
     next: getRandomTetro(),
@@ -73,7 +78,8 @@ function initGameState(): GameState {
     currentFrame: 0,
     inputBuffer: [],
     evaluateGrid: false,
-    statistics
+    statistics,
+    pause: false
   };
 }
 
@@ -93,7 +99,7 @@ function frameStep(state: GameState): GameState {
   let line: number = state.line;
   let statistics: Statistics = state.statistics;
 
-  // Auto moving piece and updating grid
+  // Auto moving piece and update grid
   if (state.currentFrame === state.levelInfo.framesPerStep) {
     nextFrame = 0;
 
@@ -122,7 +128,7 @@ function frameStep(state: GameState): GameState {
       canMove = fits(state.grid, transformedTetro);
     }
 
-    // freeze current and use next
+    // move tetro and update score
     if (canMove) {
       const futureY: number = transformedTetro.position.y;
       score +=
@@ -130,7 +136,7 @@ function frameStep(state: GameState): GameState {
           ? moveScore(state.levelInfo.level)
           : 0;
       active = transformedTetro;
-      // freeze current and use next
+      // freeze current tetro and bring in next tetro
     } else {
       active = getNextTetro(state.next.index);
       next = getRandomTetro();
@@ -226,10 +232,19 @@ function reducer(state: GameState, action: Action): GameState {
       }
     }
 
+    if (action.value.key === "Escape") {
+      return { ...state, pause: true };
+    }
+
     return { ...state };
   }
 
-  if (action.type === "GAME_BEGIN") {
+  if (action.type === "NEW_GAME") {
+    return { ...state };
+  }
+
+  if (action.type === "RESUME_GAME") {
+    return { ...state, pause: false };
   }
 
   if (action.type === "SCORE_ADD") {

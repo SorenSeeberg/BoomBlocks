@@ -1,10 +1,14 @@
 import React from "react";
-import { Header } from "./Text";
+import { Title } from "./Text";
 import { useHistory } from "react-router-dom";
+import { useSettingsState } from "../context/SettingsContxt";
+import { useTheme } from "../context/ThemeContext";
 
 export function GameTitle() {
   const history = useHistory();
   const { pathname } = history.location;
+  const { themeName } = useSettingsState();
+  const theme = useTheme()[themeName];
 
   return (
     <div
@@ -15,13 +19,17 @@ export function GameTitle() {
         height: pathname === "/game" ? "60px" : "140px",
         width: "100vw",
         transition: "height .25s",
-        background: "black",
+        background: theme.backgroundTopBar,
         marginBottom: pathname === "/game" ? "0" : "60px"
       }}
     >
-      <Header fontSize={pathname === "/game" ? "50px" : "80px"}>
+      <Title
+        fontSize={
+          pathname === "/game" ? theme.font.size.h1 : theme.font.size.title
+        }
+      >
         Boom Blocks
-      </Header>
+      </Title>
     </div>
   );
 }

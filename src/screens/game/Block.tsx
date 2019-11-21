@@ -1,11 +1,11 @@
 import React from "react";
 import { BlockProps } from "../../types";
-import { useGameState } from "../../context/GameContext";
 import { Theme, useTheme } from "../../context/ThemeContext";
 import { BLOCK_SIZE } from "../../constants";
+import { useSettingsState } from "../../context/SettingsContxt";
 
 export default function Block({ transform, value }: BlockProps) {
-  const { themeName } = useGameState();
+  const { themeName } = useSettingsState();
   const currentTheme: Theme = useTheme()[themeName];
 
   return (

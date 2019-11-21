@@ -2,9 +2,10 @@ import React from "react";
 import { useGameState } from "../../context/GameContext";
 import { Theme, useTheme } from "../../context/ThemeContext";
 import { Row } from "../../components/Layout";
+import { useSettingsState } from "../../context/SettingsContxt";
 
 function Bar({ height = "100px", index }) {
-  const { themeName } = useGameState();
+  const { themeName } = useSettingsState();
   const currentTheme: Theme = useTheme()[themeName];
 
   return (

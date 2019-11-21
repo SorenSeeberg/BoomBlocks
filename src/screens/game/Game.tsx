@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Column, Row } from "../../components/Layout";
-import { GameTitle } from "../../components/GameTitle";
 import {
   GameState,
   useGameState,
@@ -20,16 +19,24 @@ import Statistics from "./Statistics";
 import { Window } from "../../components/Window";
 import useEventListener from "../../util/useEventListener";
 import Level from "./Level";
+import { useHistory } from "react-router-dom";
 
 function Game() {
   const game: GameState = useGameState();
   const dispatch = useGameDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     setTimeout(() => {
       dispatch({ type: "FRAME_STEP" });
     }, game.levelInfo.msPerFrame);
   }, [game.currentFrame, game.levelInfo.msPerFrame, dispatch]);
+
+  useEffect(() => {
+    if (game.pause) {
+      history.push("/menu");
+    }
+  }, [game.pause]);
 
   function handler({ key }) {
     if (GAME_INPUT_KEYS.includes(key)) {

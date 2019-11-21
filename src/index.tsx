@@ -16,39 +16,53 @@ import Menu from "./screens/menu/Menu";
 import Game from "./screens/game/Game";
 import { GameTitle } from "./components/GameTitle";
 import Settings from "./screens/settings/Settings";
+import { SettingsProvider } from "./context/SettingsContxt";
+import { Background } from "./components/Background";
+
+export type Routes =
+  | "/"
+  | "/settings"
+  | "/game"
+  | "/highscore"
+  | "/about"
+  | "/menu";
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider>
-        <GameProvider>
-          <Router>
-            <Row
-              width="100vw"
-              height="calc(100vh - 20px)"
-              alignItems="flex-start"
-              justifyContent="center"
-            >
-              <Column>
-                <GameTitle />
-                <Switch>
-                  <Route path="/" exact>
-                    <Menu />
-                  </Route>
-                  <Route path="/menu" exact>
-                    <Menu />
-                  </Route>
-                  <Route path="/game" exact>
-                    <Game />
-                  </Route>
-                  <Route path="/settings" exact>
-                    <Settings />
-                  </Route>
-                </Switch>
-              </Column>
-            </Row>
-          </Router>
-        </GameProvider>
+        <SettingsProvider>
+          <GameProvider>
+            <Background>
+              <Router>
+                <Row
+                  width="100vw"
+                  height="calc(100vh - 20px)"
+                  alignItems="flex-start"
+                  justifyContent="center"
+                >
+                  <Column>
+                    <GameTitle />
+                    <Switch>
+                      <Route path="/" exact>
+                        <Menu />
+                      </Route>
+                      <Route path="/menu" exact>
+                        <Menu />
+                      </Route>
+                      <Route path="/game" exact>
+                        <Game />
+                      </Route>
+                      <Route path="/settings" exact>
+                        <Settings />
+                      </Route>
+                    </Switch>
+                  </Column>
+                </Row>
+              </Router>
+            </Background>
+          </GameProvider>
+        </SettingsProvider>
       </ThemeProvider>
     </div>
   );

@@ -23,7 +23,7 @@ This is work in progress, so quite a few things in the menu still doesn't work.
     - Game needs to be reset on click
     - New game must be initialized using settings state
   - Settings menu
-    - settings context in progress to be able to adjust game variables
+    - random model setting needs to be hooked up with logic
   - Highscore
     - display highscores
   - About
