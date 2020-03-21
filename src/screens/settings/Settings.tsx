@@ -9,7 +9,7 @@ const displayStrings = {
   ntsc: "NTSC 60Hz",
   pal: "PAL 50Hz",
   arcade: "Arcade",
-  soviet: "Soviet",
+  soviet: "Matrix",
   random: "Random",
   "7bag": "7 bag",
   "14bag": "14 bag"

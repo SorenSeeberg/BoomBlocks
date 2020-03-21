@@ -10,7 +10,8 @@ import {
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
+  Redirect
 } from "react-router-dom";
 import Menu from "./screens/menu/Menu";
 import Game from "./screens/game/Game";
@@ -45,7 +46,7 @@ function App() {
                     <GameTitle />
                     <Switch>
                       <Route path="/" exact>
-                        <Menu />
+                        <Redirect to="/menu" />
                       </Route>
                       <Route path="/menu" exact>
                         <Menu />

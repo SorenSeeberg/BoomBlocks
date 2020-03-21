@@ -6,6 +6,7 @@ export type Theme = {
   tetroColors: string[];
   background: string;
   backgroundTopBar: string;
+  window: { border: string; background: string };
   font: {
     baseText: {
       fontFamily: string;
@@ -29,40 +30,47 @@ export type Theme = {
   };
 };
 
-const themeArcade: Theme = {
-  tetroColors: [
-    "black",
-    "cyan",
-    "blue",
-    "orange",
-    "yellow",
-    "green",
-    "purple",
-    "red",
-    "transparent"
-  ],
-  background: "#270b5c",
-  backgroundTopBar: "purple",
-  font: {
-    baseText: {
-      fontFamily: '"VT323", monospace',
-      color: "#ffc379",
-      textShadow: "2px 5px 0 black",
-      transition: "font-size 1s"
+function themeArcade(): Theme {
+  const fontColor = "#ffc379";
+  const borderColor = "#7598ca";
+
+  return {
+    tetroColors: [
+      "black",
+      "cyan",
+      "blue",
+      "orange",
+      "yellow",
+      "green",
+      "purple",
+      "red",
+      "transparent"
+    ],
+    background: "#270b5c",
+    backgroundTopBar: "purple",
+    window: { border: `2px solid ${borderColor}`, background: "#1f0b50" },
+    font: {
+      baseText: {
+        fontFamily: '"VT323", monospace',
+        color: fontColor,
+        textShadow: "2px 5px 0 black",
+        transition: "font-size 1s"
+      },
+      size: { h1: "54px", h2: "45px", h3: "36px", title: "84px" },
+      color: {
+        titleColor: "green",
+        titleBorder: "1px white"
+      }
     },
-    size: { h1: "54px", h2: "45px", h3: "36px", title: "84px" },
-    color: {
-      titleColor: "green",
-      titleBorder: "1px white"
+    menuItem: {
+      backgroundHover: "purple"
     }
-  },
-  menuItem: {
-    backgroundHover: "purple"
-  }
-};
+  };
+}
 
 function themeSoviet(): Theme {
   const primaryColor = "#85ffc7";
+  const borderColor = "#52635b";
 
   return {
     tetroColors: [
@@ -78,6 +86,7 @@ function themeSoviet(): Theme {
     ],
     background: "#181818",
     backgroundTopBar: "#080808",
+    window: { border: `2px solid ${borderColor}`, background: "#161419" },
     font: {
       baseText: {
         fontFamily: '"Share Tech Mono", monospace',
@@ -99,7 +108,7 @@ export type Themes = {
   soviet: Theme;
 };
 
-const themes: Themes = { arcade: themeArcade, soviet: themeSoviet() };
+const themes: Themes = { arcade: themeArcade(), soviet: themeSoviet() };
 
 const ThemeContext: Context<Themes> = createContext<Themes>(themes);
 

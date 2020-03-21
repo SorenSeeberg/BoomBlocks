@@ -20,6 +20,7 @@ import { Window } from "../../components/Window";
 import useEventListener from "../../util/useEventListener";
 import Level from "./Level";
 import { useHistory } from "react-router-dom";
+import { useWindowSize } from "../../util/useWindowSize";
 
 function Game() {
   const game: GameState = useGameState();
@@ -36,22 +37,23 @@ function Game() {
     if (game.pause) {
       history.push("/menu");
     }
-  }, [game.pause]);
+  }, [game.pause, history]);
 
-  function handler({ key }) {
+  function keyHandler({ key }) {
     if (GAME_INPUT_KEYS.includes(key)) {
       dispatch({ type: "KEY_DOWN", value: { key } });
     }
     // https://stackoverflow.com/questions/29069639/listen-to-keypress-for-document-in-reactjs
   }
 
-  useEventListener("keydown", handler);
+  useEventListener("keydown", keyHandler);
 
   const width: number = GRID_SIZE.x * BLOCK_SIZE;
   const widthStyle: string = `${width}px`;
   const halfWidthStyle: string = `${width / 2 - 4}px`;
+  const windowSize = useWindowSize();
 
-  return (
+  return windowSize.width > 768 ? (
     <Row>
       <Column>
         <Row>
@@ -62,7 +64,6 @@ function Game() {
           width={widthStyle}
           height={`${GRID_SIZE.y * BLOCK_SIZE -
             HIDDEN_ROW_COUNT * BLOCK_SIZE}px`}
-          background="black"
         >
           <Grid lines={game.grid} activePiece={game.active} />
         </Window>
@@ -70,9 +71,28 @@ function Game() {
       <Column height="746px">
         <Score width={widthStyle} />
         <Level width={widthStyle} />
-        <Window width={widthStyle} fillHeight={true} background="black">
+        <Window width={widthStyle} fillHeight={true}>
           <Statistics />
         </Window>
+      </Column>
+    </Row>
+  ) : (
+    <Row alignItems="flex-start">
+      <Column>
+        <Window
+          width={widthStyle}
+          height={`${GRID_SIZE.y * BLOCK_SIZE -
+            HIDDEN_ROW_COUNT * BLOCK_SIZE}px`}
+        >
+          <Grid lines={game.grid} activePiece={game.active} />
+        </Window>
+      </Column>
+      <Column>
+        <Score width={halfWidthStyle} />
+        <NextBlock width={halfWidthStyle} />
+        <Line width={halfWidthStyle} />
+
+        <Level width={halfWidthStyle} />
       </Column>
     </Row>
   );
