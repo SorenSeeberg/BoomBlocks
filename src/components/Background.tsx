@@ -1,10 +1,19 @@
-import React from "react";
-import { useSettingsState } from "../context/SettingsContxt";
-import { Theme, useTheme } from "../context/ThemeContext";
+import React, { ReactNode } from 'react';
+import { useSettingsState } from '../context/SettingsContext';
+import { Theme, useTheme } from '../context/ThemeContext';
 
-export function Background({ children }) {
-  const { themeName } = useSettingsState();
-  const currentTheme: Theme = useTheme()[themeName];
+export function Background({ children }: { children: ReactNode }) {
+    const { themeName } = useSettingsState();
+    const currentTheme: Theme = useTheme()[themeName];
 
-  return <div style={{ background: currentTheme.background }}>{children}</div>;
+    return (
+        <div>
+            {children}
+            <style jsx>{`
+                div {
+                    background: ${currentTheme.background};
+                }
+            `}</style>
+        </div>
+    );
 }

@@ -1,53 +1,62 @@
-import React, { ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { useTheme } from "../context/ThemeContext";
-import { useSettingsState } from "../context/SettingsContxt";
+import React, { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
+import { useSettingsState } from '../context/SettingsContext';
 
 type MenuItemProps = {
-  children: ReactNode;
-  linkTo?: string;
-  displayValue?: string | number;
-  onClick?: () => void;
-  type?: "link" | "option";
+    children: ReactNode;
+    linkTo?: string;
+    displayValue?: string | number;
+    onClick?: () => void;
+    type?: 'link' | 'option';
 };
 
 export function MenuItem({
-  children,
-  linkTo,
-  onClick,
-  displayValue,
-  type = "link"
+    children,
+    linkTo,
+    onClick,
+    displayValue,
+    type = 'link'
 }: MenuItemProps) {
-  const { themeName } = useSettingsState();
-  const theme = useTheme()[themeName];
-  return (
-    <>
-      {type === "link" ? (
-        <Link to={linkTo} style={{ textDecoration: "none", width: "100vw" }}>
-          <button className="menu-item" onClick={onClick}>
-            {children}
-          </button>
-        </Link>
-      ) : (
-        <button className="menu-item" onClick={onClick}>
-          <div
-            style={{
-              display: "flex",
-              width: "500px",
-              justifyContent: "flex-end",
-              paddingRight: "5px"
-            }}
-          >
-            {`${children}:`}
-          </div>
-          <div style={{ display: "flex", width: "500px", paddingLeft: "5px" }}>
-            {`[${displayValue}]`}
-          </div>
-        </button>
-      )}
+    const { themeName } = useSettingsState();
+    const theme = useTheme()[themeName];
+    return (
+        <>
+            {type === 'link' ? (
+                <Link
+                    to={linkTo as string}
+                    style={{ textDecoration: 'none', width: '100vw' }}
+                >
+                    <button className="menu-item" onClick={onClick}>
+                        {children}
+                    </button>
+                </Link>
+            ) : (
+                <button className="menu-item" onClick={onClick}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '500px',
+                            justifyContent: 'flex-end',
+                            paddingRight: '5px'
+                        }}
+                    >
+                        {`${children}:`}
+                    </div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            width: '500px',
+                            paddingLeft: '5px'
+                        }}
+                    >
+                        {`[${displayValue}]`}
+                    </div>
+                </button>
+            )}
 
-      <style>
-        {`
+            <style>
+                {`
       .menu-item {
         display: flex;
         align-items: center;
@@ -71,7 +80,7 @@ export function MenuItem({
         background: ${theme.menuItem.backgroundHover};
       }
      `}
-      </style>
-    </>
-  );
+            </style>
+        </>
+    );
 }

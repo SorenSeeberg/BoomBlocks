@@ -1,25 +1,22 @@
-import React from "react";
-import { useGameState } from "../../context/GameContext";
-import { STYLES, ZERO_LINES } from "../../constants";
-import { Column } from "../../components/Layout";
-import { H2, H3 } from "../../components/Text";
-import { Window } from "../../components/Window";
+import React from 'react';
+import { Column } from '../../components/Layout';
+import { Frame } from '../../components/Frame';
+import { H2, H3 } from '../../components/Text';
+import { useGameState } from '../../context/GameContext';
+import { ZERO_LINES } from '../../constants';
 
-type LevelProps = {
-  width: string;
-};
+export function Line() {
+    const { line } = useGameState();
+    const lineString = line ? line.toString() : '';
 
-export function Line({ width }: LevelProps) {
-  const { line } = useGameState();
-  const lineString = line ? line.toString() : "";
-  return (
-    <Window width={width} height={STYLES.infoBoxHeight}>
-      <Column height="100%">
-        <H3>LINE</H3>
-        <H2>{ZERO_LINES.slice(lineString.length) + lineString}</H2>
-      </Column>
-    </Window>
-  );
+    return (
+        <Frame>
+            <Column>
+                <H3>LINE</H3>
+                <H2>{ZERO_LINES.slice(lineString.length) + lineString}</H2>
+            </Column>
+        </Frame>
+    );
 }
 
 export default Line;
