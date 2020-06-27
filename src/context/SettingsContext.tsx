@@ -41,46 +41,45 @@ const StateContext = createContext<SettingsState>();
 const DispatchContext = createContext<Dispatch<Action>>();
 
 function reducer(state: SettingsState, action: Action): SettingsState {
-    if (action.type === 'INC_START_LEVEL') {
-        return state.startLevel < state.startLevelLimits.y
-            ? { ...state, startLevel: state.startLevel + 1 }
-            : { ...state, startLevel: state.startLevelLimits.x };
+    switch (action.type) {
+        case 'INC_START_LEVEL': {
+            return state.startLevel < state.startLevelLimits.y
+                ? { ...state, startLevel: state.startLevel + 1 }
+                : { ...state, startLevel: state.startLevelLimits.x };
+        }
+        case 'DEC_START_LEVEL': {
+            return state.startLevel > state.startLevelLimits.x
+                ? { ...state, startLevel: state.startLevel + 1 }
+                : { ...state, startLevel: state.startLevelLimits.y };
+        }
+        case 'NEXT_DISPLAY_STANDARD': {
+            return {
+                ...state,
+                displayStandard: nextOption(
+                    state.displayStandardOptions,
+                    state.displayStandard
+                ),
+            };
+        }
+        case 'NEXT_THEME': {
+            return {
+                ...state,
+                themeName: nextOption(state.themeNameOptions, state.themeName),
+            };
+        }
+        case 'NEXT_RNG_MODEL': {
+            return {
+                ...state,
+                randomModel: nextOption(
+                    state.randomModelOptions,
+                    state.randomModel
+                ),
+            };
+        }
+        default: {
+            return { ...state };
+        }
     }
-
-    if (action.type === 'DEC_START_LEVEL') {
-        return state.startLevel > state.startLevelLimits.x
-            ? { ...state, startLevel: state.startLevel + 1 }
-            : { ...state, startLevel: state.startLevelLimits.y };
-    }
-
-    if (action.type === 'NEXT_DISPLAY_STANDARD') {
-        return {
-            ...state,
-            displayStandard: nextOption(
-                state.displayStandardOptions,
-                state.displayStandard
-            ),
-        };
-    }
-
-    if (action.type === 'NEXT_THEME') {
-        return {
-            ...state,
-            themeName: nextOption(state.themeNameOptions, state.themeName),
-        };
-    }
-
-    if (action.type === 'NEXT_RNG_MODEL') {
-        return {
-            ...state,
-            randomModel: nextOption(
-                state.randomModelOptions,
-                state.randomModel
-            ),
-        };
-    }
-
-    return { ...state };
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {

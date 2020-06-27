@@ -5,24 +5,12 @@
     "keywords": [],
     "main": "src/index.tsx",
     "dependencies": {
-        "@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.3.2",
-        "@testing-library/user-event": "^7.1.2",
-        "@types/classnames": "^2.2.10",
-        "@types/jest": "^24.0.0",
-        "@types/node": "^12.0.0",
-        "@types/react": "^16.9.0",
-        "@types/react-dom": "^16.9.0",
-        "@types/react-router-dom": "^5.1.3",
-        "@types/styled-jsx": "^2.2.8",
         "classnames": "^2.2.6",
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
         "react-router": "^5.1.2",
         "react-router-dom": "^5.1.2",
-        "react-scripts": "3.4.0",
-        "styled-jsx": "^3.2.4",
-        "typescript": "~3.7.2"
+        "react-scripts": "3.4.0"
     },
     "scripts": {
         "start": "react-app-rewired start",
@@ -32,8 +20,20 @@
     "devDependencies": {
         "@types/react": "16.7.22",
         "@types/react-dom": "16.0.11",
+        "@types/classnames": "^2.2.10",
+        "@types/jest": "^24.0.0",
+        "@types/node": "^12.0.0",
+        "@types/react": "^16.9.0",
+        "@types/react-dom": "^16.9.0",
+        "@types/react-router-dom": "^5.1.3",
+        "@types/styled-jsx": "^2.2.8",
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
         "customize-cra": "^0.9.1",
-        "react-app-rewired": "^2.1.5"
+        "react-app-rewired": "^2.1.5",
+        "styled-jsx": "^3.2.4",
+        "typescript": "~3.7.2"
     },
     "browserslist": [
         ">0.2%",

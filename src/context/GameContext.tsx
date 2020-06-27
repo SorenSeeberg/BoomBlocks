@@ -3,7 +3,7 @@ import React, {
     Dispatch,
     ReactNode,
     useContext,
-    useReducer
+    useReducer,
 } from 'react';
 import { accumulateScore, lineScore, moveScore } from '../util/score';
 import {
@@ -12,7 +12,7 @@ import {
     getNextTetro,
     getRandomTetro,
     TransformAction,
-    transformBlock
+    transformBlock,
 } from '../util/tetromino';
 import { collapsableLInes, collapseLines, fits, freeze } from '../util/grid';
 import { getLevelInfo } from '../util/level';
@@ -21,7 +21,7 @@ import {
     LevelInfo,
     Statistics,
     TetroGameObject,
-    Tetromino
+    Tetromino,
 } from '../types';
 import { GRID_SIZE } from '../constants';
 
@@ -63,7 +63,7 @@ type Action = { type: GameActionTypes; value?: any };
 
 function initGameState(): GameState {
     const active = getFirstTetro();
-    const statistics = [0, 1, 2, 3, 4, 5, 6];
+    const statistics = [0, 0, 0, 0, 0, 0, 0];
     statistics[active.tetromino.index] = 1;
 
     return {
@@ -79,7 +79,7 @@ function initGameState(): GameState {
         inputBuffer: [],
         evaluateGrid: false,
         statistics,
-        pause: false
+        pause: false,
     };
 }
 
@@ -96,13 +96,13 @@ function frameStep(state: GameState): GameState {
     let moveScoreTrigger: number;
     let gridFragment: { grid: Grid; evaluateGrid: boolean } = {
         grid: state.grid,
-        evaluateGrid: state.evaluateGrid
+        evaluateGrid: state.evaluateGrid,
     };
     let next: Tetromino = state.next;
     let nextFrame: number;
     let score: number = state.score;
     let line: number = state.line;
-    let statistics: Statistics = state.statistics;
+    const statistics: Statistics = [...state.statistics];
 
     // Auto moving piece and update grid
     if (state.currentFrame === state.levelInfo.framesPerStep) {
@@ -118,7 +118,7 @@ function frameStep(state: GameState): GameState {
                 score += lineScore(state.levelInfo.level, lineCount);
                 gridFragment = {
                     evaluateGrid: false,
-                    grid: collapseLines(state.grid, collapseIndices)
+                    grid: collapseLines(state.grid, collapseIndices),
                 };
             }
         }
@@ -126,7 +126,7 @@ function frameStep(state: GameState): GameState {
         moveScoreTrigger = 2;
         transformedTetro = transformBlock(active, [
             ...state.inputBuffer,
-            'down'
+            'down',
         ]);
 
         canMove = fits(state.grid, transformedTetro);
@@ -150,13 +150,9 @@ function frameStep(state: GameState): GameState {
             next = getRandomTetro();
             gridFragment = {
                 grid: freeze(state.grid, state.active),
-                evaluateGrid: true
+                evaluateGrid: true,
             };
-            statistics = {
-                ...state.statistics,
-                [active.tetromino.index]:
-                    state.statistics[active.tetromino.index] + 1
-            };
+            statistics[active.tetromino.index] += 1;
         }
     }
     // User Input handling between auto moves
@@ -185,97 +181,99 @@ function frameStep(state: GameState): GameState {
         score,
         line,
         levelInfo: getLevelInfo(line),
+        statistics,
         ...gridFragment,
         ...(next ? { next } : undefined),
-        ...(statistics ? statistics : [])
     };
 }
 
 function reducer(state: GameState, action: Action): GameState {
-    if (action.type === 'FRAME_STEP') {
-        return frameStep(state);
-    }
+    switch (action.type) {
+        case 'FRAME_STEP': {
+            return frameStep(state);
+        }
+        case 'KEY_DOWN': {
+            if (action.value.key === 'ArrowLeft') {
+                if (state.inputBuffer.includes('left')) {
+                    return { ...state };
+                }
 
-    if (action.type === 'NEXT_BLOCK') {
-    }
+                if (state.inputBuffer.includes('right')) {
+                    return {
+                        ...state,
+                        inputBuffer: [
+                            ...state.inputBuffer.filter((i) => i !== 'right'),
+                            'left',
+                        ],
+                    };
+                }
 
-    if (action.type === 'KEY_DOWN') {
-        if (action.value.key === 'ArrowLeft') {
-            if (state.inputBuffer.includes('left')) {
-                return { ...state };
-            }
-
-            if (state.inputBuffer.includes('right')) {
                 return {
                     ...state,
-                    inputBuffer: [
-                        ...state.inputBuffer.filter(i => i !== 'right'),
-                        'left'
-                    ]
+                    inputBuffer: [...state.inputBuffer, 'left'],
                 };
             }
 
-            return { ...state, inputBuffer: [...state.inputBuffer, 'left'] };
-        }
+            if (action.value.key === 'ArrowRight') {
+                if (state.inputBuffer.includes('right')) {
+                    return { ...state };
+                }
 
-        if (action.value.key === 'ArrowRight') {
-            if (state.inputBuffer.includes('right')) {
-                return { ...state };
-            }
-
-            if (state.inputBuffer.includes('left')) {
+                if (state.inputBuffer.includes('left')) {
+                    return {
+                        ...state,
+                        inputBuffer: [
+                            ...state.inputBuffer.filter((i) => i !== 'left'),
+                            'right',
+                        ],
+                    };
+                }
                 return {
                     ...state,
-                    inputBuffer: [
-                        ...state.inputBuffer.filter(i => i !== 'left'),
-                        'right'
-                    ]
+                    inputBuffer: [...state.inputBuffer, 'right'],
                 };
             }
-            return { ...state, inputBuffer: [...state.inputBuffer, 'right'] };
-        }
 
-        if (action.value.key === 'ArrowDown') {
-            if (!state.inputBuffer.includes('down')) {
-                return {
-                    ...state,
-                    inputBuffer: [...state.inputBuffer, 'down']
-                };
+            if (action.value.key === 'ArrowDown') {
+                if (!state.inputBuffer.includes('down')) {
+                    return {
+                        ...state,
+                        inputBuffer: [...state.inputBuffer, 'down'],
+                    };
+                }
             }
-        }
 
-        if (action.value.key === 'ArrowUp') {
-            if (!state.inputBuffer.includes('rotate')) {
-                return {
-                    ...state,
-                    inputBuffer: [...state.inputBuffer, 'rotate']
-                };
+            if (action.value.key === 'ArrowUp') {
+                if (!state.inputBuffer.includes('rotate')) {
+                    return {
+                        ...state,
+                        inputBuffer: [...state.inputBuffer, 'rotate'],
+                    };
+                }
             }
+
+            if (action.value.key === 'Escape') {
+                return { ...state, pause: true };
+            }
+
+            return { ...state };
         }
-
-        if (action.value.key === 'Escape') {
-            return { ...state, pause: true };
+        case 'NEW_GAME': {
+            return { ...state };
         }
-
-        return { ...state };
+        case 'RESUME_GAME': {
+            return { ...state, pause: false };
+        }
+        case 'SCORE_ADD': {
+            return {
+                ...state,
+                score: state.score + action.value.points,
+            };
+        }
+        default: {
+            return state;
+        }
     }
-
-    if (action.type === 'NEW_GAME') {
-        return { ...state };
-    }
-
-    if (action.type === 'RESUME_GAME') {
-        return { ...state, pause: false };
-    }
-
-    if (action.type === 'SCORE_ADD') {
-        return {
-            ...state,
-            score: state.score + action.value.points
-        };
-    }
-
-    return state;
 }
 
 export function GameProvider({ children }: { children: ReactNode }) {

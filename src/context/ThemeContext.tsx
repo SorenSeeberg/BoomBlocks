@@ -112,7 +112,6 @@ export type Themes = {
 };
 
 const themes: Themes = { arcade: themeArcade(), soviet: themeSoviet() };
-
 const ThemeContext: Context<Themes> = createContext<Themes>(themes);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

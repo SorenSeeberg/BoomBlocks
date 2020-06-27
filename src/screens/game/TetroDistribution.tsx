@@ -20,7 +20,7 @@ function Bar({ height = '100px', index }: BarProps) {
                 height: height === '0px' ? '4px' : height,
                 width: '30px',
                 background: currentTheme.tetroColors[colorIndex],
-                transition: 'height 0.35s ease'
+                transition: 'height 0.35s ease',
             }}
         />
     );
@@ -36,16 +36,16 @@ export function TetroDistribution() {
         }
     }
 
-    const unit = highestValue > 0 ? 100 / highestValue : 0;
+    const normalizedUnit = highestValue > 0 ? 100 / highestValue : 0;
 
     return (
         <Row alignItems="flex-end" justifyContent="space-evenly">
             {statistics.map((s, i) => (
                 <Bar
                     key={i}
-                    index={s}
+                    index={i}
                     height={
-                        highestValue > 0 ? `${unit * statistics[s]}px` : '0px'
+                        highestValue > 0 ? `${normalizedUnit * s}px` : '0px'
                     }
                 />
             ))}
