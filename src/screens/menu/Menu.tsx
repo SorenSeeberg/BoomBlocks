@@ -8,7 +8,7 @@ import Frame from '../../components/Frame';
 import { GameTitle } from '../components/GameTitle';
 
 export function Menu() {
-    const { pause } = useGameState();
+    const { pause, gameOver } = useGameState();
     const gameDispatch = useGameDispatch();
     const settingsState = useSettingsState();
 
@@ -17,7 +17,7 @@ export function Menu() {
             header={<GameTitle />}
             menu={
                 <Frame>
-                    {pause ? (
+                    {pause && !gameOver && (
                         <MenuItem
                             linkTo="/game"
                             onClick={() =>
@@ -28,24 +28,23 @@ export function Menu() {
                         >
                             Resume Game
                         </MenuItem>
-                    ) : (
-                        <MenuItem
-                            linkTo="/game"
-                            onClick={() =>
-                                gameDispatch({
-                                    type: 'NEW_GAME',
-                                    value: {
-                                        settingsState:
-                                            settingsState.displayStandard,
-                                        startLevel: settingsState.startLevel,
-                                        randomModel: settingsState.randomModel,
-                                    },
-                                })
-                            }
-                        >
-                            New Game
-                        </MenuItem>
                     )}
+                    <MenuItem
+                        linkTo="/game"
+                        onClick={() =>
+                            gameDispatch({
+                                type: 'NEW_GAME',
+                                value: {
+                                    settingsState:
+                                        settingsState.displayStandard,
+                                    startLevel: settingsState.startLevel,
+                                    randomModel: settingsState.randomModel,
+                                },
+                            })
+                        }
+                    >
+                        New Game
+                    </MenuItem>
                     <MenuItem linkTo="/settings">Settings</MenuItem>
                     <MenuItem linkTo="/highscore">Highscore</MenuItem>
                     <MenuItem linkTo="/about">About</MenuItem>
