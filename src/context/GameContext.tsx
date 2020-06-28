@@ -14,7 +14,13 @@ import {
     TransformAction,
     transformBlock,
 } from '../util/tetromino';
-import { collapsableLInes, collapseLines, fits, freeze } from '../util/grid';
+import {
+    collapsableLInes,
+    collapseLines,
+    fits,
+    freeze,
+    isGameOver,
+} from '../util/grid';
 import { getLevelInfo } from '../util/level';
 import {
     Grid,
@@ -98,11 +104,12 @@ function frameStep(state: GameState): GameState {
         grid: state.grid,
         evaluateGrid: state.evaluateGrid,
     };
-    let next: Tetromino = state.next;
+    let next: Tetromino = { ...state.next };
     let nextFrame: number;
     let score: number = state.score;
     let line: number = state.line;
     const statistics: Statistics = [...state.statistics];
+    const gameOver = isGameOver(state.grid);
 
     // Auto moving piece and update grid
     if (state.currentFrame === state.levelInfo.framesPerStep) {
@@ -182,6 +189,7 @@ function frameStep(state: GameState): GameState {
         line,
         levelInfo: getLevelInfo(line),
         statistics,
+        gameOver,
         ...gridFragment,
         ...(next ? { next } : undefined),
     };
@@ -193,73 +201,77 @@ function reducer(state: GameState, action: Action): GameState {
             return frameStep(state);
         }
         case 'KEY_DOWN': {
-            if (action.value.key === 'ArrowLeft') {
-                if (state.inputBuffer.includes('left')) {
+            switch (action.value.key) {
+                case 'ArrowLeft': {
+                    if (state.inputBuffer.includes('left')) {
+                        return { ...state };
+                    }
+                    if (state.inputBuffer.includes('right')) {
+                        return {
+                            ...state,
+                            inputBuffer: [
+                                ...state.inputBuffer.filter(
+                                    (i) => i !== 'right'
+                                ),
+                                'left',
+                            ],
+                        };
+                    }
+
+                    return {
+                        ...state,
+                        inputBuffer: [...state.inputBuffer, 'left'],
+                    };
+                }
+                case 'ArrowRight': {
+                    if (state.inputBuffer.includes('right')) {
+                        return { ...state };
+                    }
+
+                    if (state.inputBuffer.includes('left')) {
+                        return {
+                            ...state,
+                            inputBuffer: [
+                                ...state.inputBuffer.filter(
+                                    (i) => i !== 'left'
+                                ),
+                                'right',
+                            ],
+                        };
+                    }
+                    return {
+                        ...state,
+                        inputBuffer: [...state.inputBuffer, 'right'],
+                    };
+                }
+                case 'ArrowDown': {
+                    if (!state.inputBuffer.includes('down')) {
+                        return {
+                            ...state,
+                            inputBuffer: [...state.inputBuffer, 'down'],
+                        };
+                    }
                     return { ...state };
                 }
-
-                if (state.inputBuffer.includes('right')) {
-                    return {
-                        ...state,
-                        inputBuffer: [
-                            ...state.inputBuffer.filter((i) => i !== 'right'),
-                            'left',
-                        ],
-                    };
-                }
-
-                return {
-                    ...state,
-                    inputBuffer: [...state.inputBuffer, 'left'],
-                };
-            }
-
-            if (action.value.key === 'ArrowRight') {
-                if (state.inputBuffer.includes('right')) {
+                case 'ArrowUp': {
+                    if (!state.inputBuffer.includes('rotate')) {
+                        return {
+                            ...state,
+                            inputBuffer: [...state.inputBuffer, 'rotate'],
+                        };
+                    }
                     return { ...state };
                 }
-
-                if (state.inputBuffer.includes('left')) {
-                    return {
-                        ...state,
-                        inputBuffer: [
-                            ...state.inputBuffer.filter((i) => i !== 'left'),
-                            'right',
-                        ],
-                    };
+                case 'Escape': {
+                    return { ...state, pause: true };
                 }
-                return {
-                    ...state,
-                    inputBuffer: [...state.inputBuffer, 'right'],
-                };
-            }
-
-            if (action.value.key === 'ArrowDown') {
-                if (!state.inputBuffer.includes('down')) {
-                    return {
-                        ...state,
-                        inputBuffer: [...state.inputBuffer, 'down'],
-                    };
+                default: {
+                    return { ...state };
                 }
             }
-
-            if (action.value.key === 'ArrowUp') {
-                if (!state.inputBuffer.includes('rotate')) {
-                    return {
-                        ...state,
-                        inputBuffer: [...state.inputBuffer, 'rotate'],
-                    };
-                }
-            }
-
-            if (action.value.key === 'Escape') {
-                return { ...state, pause: true };
-            }
-
-            return { ...state };
         }
         case 'NEW_GAME': {
-            return { ...state };
+            return initGameState();
         }
         case 'RESUME_GAME': {
             return { ...state, pause: false };
