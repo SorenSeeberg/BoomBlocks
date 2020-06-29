@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
-import { useSettingsState } from '../context/SettingsContext';
+import { useTheme } from '../theme/ThemeContext';
+import { useSettingsState } from '../screens/settings/SettingsContext';
 
 type MenuItemProps = {
     children: ReactNode;
@@ -16,7 +16,7 @@ export function MenuItem({
     linkTo,
     onClick,
     displayValue,
-    type = 'link'
+    type = 'link',
 }: MenuItemProps) {
     const { themeName } = useSettingsState();
     const theme = useTheme()[themeName];
@@ -38,7 +38,7 @@ export function MenuItem({
                             display: 'flex',
                             width: '500px',
                             justifyContent: 'flex-end',
-                            paddingRight: '5px'
+                            paddingRight: '5px',
                         }}
                     >
                         {`${children}:`}
@@ -47,7 +47,7 @@ export function MenuItem({
                         style={{
                             display: 'flex',
                             width: '500px',
-                            paddingLeft: '5px'
+                            paddingLeft: '5px',
                         }}
                     >
                         {`[${displayValue}]`}

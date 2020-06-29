@@ -4,18 +4,18 @@ import { BLOCK_SIZE } from '../../constants';
 import { Column } from '../../components/Layout';
 import { Frame } from '../../components/Frame';
 import { Tetromino } from '../../types';
-import { useGameState } from '../../context/GameContext';
+import { useGameState } from './context/GameContext';
 
 export default function NextBlock() {
     const { next } = useGameState();
 
     const strippedData: number[][] = next.data.filter(
-        l => l.reduce((a, b) => a + b, 0) > 0
+        (l) => l.reduce((a, b) => a + b, 0) > 0
     );
     const strippedNext: Tetromino = {
         ...next,
         data: strippedData,
-        size: { x: strippedData[0].length, y: strippedData.length }
+        size: { x: strippedData[0].length, y: strippedData.length },
     };
 
     return (
@@ -30,8 +30,9 @@ export default function NextBlock() {
                             line.map((value: number, x: number) => (
                                 <Block
                                     key={`${x}_${y}`}
-                                    transform={`translate(${x *
-                                        BLOCK_SIZE} ${y * BLOCK_SIZE})`}
+                                    transform={`translate(${x * BLOCK_SIZE} ${
+                                        y * BLOCK_SIZE
+                                    })`}
                                     value={value === 0 ? 9 : value}
                                 />
                             ))

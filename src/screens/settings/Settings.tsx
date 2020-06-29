@@ -1,13 +1,10 @@
 import React from 'react';
 import { MenuItem } from '../../components/MenuItem';
-import {
-    useSettingsState,
-    useSettingsDispatch,
-} from '../../context/SettingsContext';
-import { Footer } from '../components/Footer';
+import { useSettingsState, useSettingsDispatch } from './SettingsContext';
+import { Footer } from '../../components/Footer';
 import Frame from '../../components/Frame';
-import { MenuLayout } from '../components/MenuLayout';
-import { GameTitle } from '../components/GameTitle';
+import { MenuLayout } from '../../components/MenuLayout';
+import { GameTitle } from '../../components/GameTitle';
 
 const displayStrings = {
     ntsc: 'NTSC 60Hz',

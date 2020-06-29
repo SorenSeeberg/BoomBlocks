@@ -1,3 +1,4 @@
+import GameOver from './GameOver';
 import Grid from './Grid';
 import Level from './Level';
 import Line from './Line';
@@ -6,17 +7,13 @@ import React, { useEffect } from 'react';
 import Score from './Score';
 import Statistics from './Statistics';
 import useEventListener from '../../util/useEventListener';
+import { Footer } from '../../components/Footer';
 import { GAME_INPUT_KEYS, GameInputKey } from '../../constants';
 import { GameLayout } from './GameLayout';
-import {
-    GameState,
-    useGameDispatch,
-    useGameState,
-} from '../../context/GameContext';
+import { GameState } from './context/types';
+import { GameTitle } from '../../components/GameTitle';
+import { useGameDispatch, useGameState } from './context/GameContext';
 import { useHistory } from 'react-router-dom';
-import { GameTitle } from '../components/GameTitle';
-import { Footer } from '../components/Footer';
-import GameOver from './GameOver';
 
 function Game() {
     const game: GameState = useGameState();

@@ -1,8 +1,8 @@
 import React from 'react';
 import { BlockProps } from '../../types';
-import { Theme, useTheme } from '../../context/ThemeContext';
+import { Theme, useTheme } from '../../theme/ThemeContext';
 import { BLOCK_SIZE } from '../../constants';
-import { useSettingsState } from '../../context/SettingsContext';
+import { useSettingsState } from '../settings/SettingsContext';
 
 export default function Block({ transform, value }: BlockProps) {
     const { themeName } = useSettingsState();
