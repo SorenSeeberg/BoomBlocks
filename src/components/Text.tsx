@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { useTheme, Theme } from '../context/ThemeContext';
-import { useSettingsState } from '../context/SettingsContext';
+import { useTheme, Theme } from '../theme/ThemeContext';
+import { useSettingsState } from '../screens/settings/SettingsContext';
 
 type Header = {
     children: ReactNode;
@@ -20,7 +20,7 @@ export function Title({ children, fontSize, padding = '0px' }: Title) {
                 WebkitTextStroke: currentTheme.font.color.titleBorder,
                 fontSize,
                 padding,
-                transition: 'font-size .5s'
+                transition: 'font-size .5s',
             }}
         >
             {children}
@@ -31,7 +31,7 @@ export function Title({ children, fontSize, padding = '0px' }: Title) {
 export function HeaderInternal({
     children,
     size,
-    padding
+    padding,
 }: Header & { size: 'h1' | 'h2' | 'h3' }) {
     const { themeName } = useSettingsState();
     const currentTheme: Theme = useTheme()[themeName];
@@ -40,7 +40,7 @@ export function HeaderInternal({
             style={{
                 ...currentTheme.font.baseText,
                 fontSize: currentTheme.font.size[size],
-                padding
+                padding,
             }}
         >
             {children}

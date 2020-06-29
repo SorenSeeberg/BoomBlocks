@@ -1,4 +1,4 @@
-import { ThemeName } from './context/ThemeContext';
+import { ThemeName } from './theme/ThemeContext';
 
 export type DisplayStandard = 'pal' | 'ntsc';
 export type RandomModel = 'random' | '7bag' | '14bag';

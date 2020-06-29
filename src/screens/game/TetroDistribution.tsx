@@ -1,8 +1,8 @@
 import React from 'react';
-import { useGameState } from '../../context/GameContext';
-import { Theme, useTheme } from '../../context/ThemeContext';
+import { useGameState } from './context/GameContext';
+import { Theme, useTheme } from '../../theme/ThemeContext';
 import { Row } from '../../components/Layout';
-import { useSettingsState } from '../../context/SettingsContext';
+import { useSettingsState } from '../settings/SettingsContext';
 
 type BarProps = {
     height?: string;

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Background } from '../../components/Background';
+import { Background } from './Background';
 
 type MenuLayoutProps = {
     header: ReactNode;

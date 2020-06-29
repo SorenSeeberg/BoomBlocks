@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGameState } from '../../context/GameContext';
+import { useGameState } from './context/GameContext';
 import { Column } from '../../components/Layout';
 import { H2, H3 } from '../../components/Text';
 import { Frame } from '../../components/Frame';

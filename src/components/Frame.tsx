@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSettingsState } from '../context/SettingsContext';
-import { Theme, useTheme } from '../context/ThemeContext';
+import { useSettingsState } from '../screens/settings/SettingsContext';
+import { Theme, useTheme } from '../theme/ThemeContext';
 
 type FrameProps = {
     width?: string;

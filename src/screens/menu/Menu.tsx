@@ -1,11 +1,11 @@
 import React from 'react';
 import { MenuItem } from '../../components/MenuItem';
-import { useGameState, useGameDispatch } from '../../context/GameContext';
-import { useSettingsState } from '../../context/SettingsContext';
-import { MenuLayout } from '../components/MenuLayout';
-import { Footer } from '../components/Footer';
+import { useGameState, useGameDispatch } from '../game/context/GameContext';
+import { useSettingsState } from '../settings/SettingsContext';
+import { MenuLayout } from '../../components/MenuLayout';
+import { Footer } from '../../components/Footer';
 import Frame from '../../components/Frame';
-import { GameTitle } from '../components/GameTitle';
+import { GameTitle } from '../../components/GameTitle';
 
 export function Menu() {
     const { pause, gameOver } = useGameState();

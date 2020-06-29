@@ -1,8 +1,8 @@
 import React from 'react';
-import { Title } from '../../components/Text';
+import { Title } from './Text';
 import { useHistory } from 'react-router-dom';
-import { useSettingsState } from '../../context/SettingsContext';
-import { useTheme } from '../../context/ThemeContext';
+import { useSettingsState } from '../screens/settings/SettingsContext';
+import { useTheme } from '../theme/ThemeContext';
 
 export function GameTitle() {
     const history = useHistory();

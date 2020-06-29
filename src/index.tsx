@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import './styles.css';
-import { GameProvider } from './context/GameContext';
-import { ThemeProvider } from './context/ThemeContext';
+import { GameProvider } from './screens/game/context/GameContext';
+import { ThemeProvider } from './theme/ThemeContext';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect
+    Redirect,
 } from 'react-router-dom';
 import Menu from './screens/menu/Menu';
 import Game from './screens/game/Game';
 import Settings from './screens/settings/Settings';
-import { SettingsProvider } from './context/SettingsContext';
+import { SettingsProvider } from './screens/settings/SettingsContext';
 
 export type Routes =
     | '/'

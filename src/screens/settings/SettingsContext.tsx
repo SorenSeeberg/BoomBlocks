@@ -5,7 +5,7 @@ import React, {
     createContext,
     ReactNode,
 } from 'react';
-import { SettingsState } from '../types';
+import { SettingsState } from '../../types';
 
 type SettingsActionTypes =
     | 'INC_START_LEVEL'

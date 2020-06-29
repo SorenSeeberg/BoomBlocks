@@ -2,7 +2,7 @@ import React from 'react';
 import { Column } from '../../components/Layout';
 import { Frame } from '../../components/Frame';
 import { H2, H3 } from '../../components/Text';
-import { useGameState } from '../../context/GameContext';
+import { useGameState } from './context/GameContext';
 import { ZERO_LINES } from '../../constants';
 
 export function Line() {

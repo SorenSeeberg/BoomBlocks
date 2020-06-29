@@ -2,7 +2,7 @@ import React from 'react';
 import { Frame } from '../../components/Frame';
 import { H1, H3 } from '../../components/Text';
 import { Row } from '../../components/Layout';
-import { useGameState } from '../../context/GameContext';
+import { useGameState } from './context/GameContext';
 import { useWindowSize } from '../../util/useWindowSize';
 import { ZERO_SCORE } from '../../constants';
 
@@ -15,7 +15,7 @@ export default function Score() {
             <Row>
                 <div
                     style={{
-                        letterSpacing: '4px'
+                        letterSpacing: '4px',
                     }}
                 >
                     {(windowSize.width as number) > 768 ? (
