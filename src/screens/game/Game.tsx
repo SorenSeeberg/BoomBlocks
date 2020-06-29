@@ -16,6 +16,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import { GameTitle } from '../components/GameTitle';
 import { Footer } from '../components/Footer';
+import GameOver from './GameOver';
 
 function Game() {
     const game: GameState = useGameState();
@@ -44,16 +45,19 @@ function Game() {
     useEventListener('keydown', keyHandler);
 
     return (
-        <GameLayout
-            header={<GameTitle />}
-            line={<Line />}
-            level={<Level />}
-            score={<Score />}
-            highScore={<Statistics />}
-            nextBlock={<NextBlock />}
-            blocks={<Grid lines={game.grid} activePiece={game.active} />}
-            footer={<Footer />}
-        />
+        <>
+            <GameLayout
+                header={<GameTitle />}
+                line={<Line />}
+                level={<Level />}
+                score={<Score />}
+                highScore={<Statistics />}
+                nextBlock={<NextBlock />}
+                blocks={<Grid lines={game.grid} activePiece={game.active} />}
+                footer={<Footer />}
+            />
+            {game.gameOver && <GameOver />}
+        </>
     );
 }
 

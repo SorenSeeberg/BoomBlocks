@@ -198,7 +198,11 @@ function frameStep(state: GameState): GameState {
 function reducer(state: GameState, action: Action): GameState {
     switch (action.type) {
         case 'FRAME_STEP': {
-            return frameStep(state);
+            if (!state.gameOver) {
+                return frameStep(state);
+            } else {
+                return state;
+            }
         }
         case 'KEY_DOWN': {
             switch (action.value.key) {
